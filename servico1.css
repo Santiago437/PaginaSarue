@@ -1,0 +1,15 @@
+.container1{
+    display: flex;
+    flex-direction:row;
+    background-color: black;
+    justify-content:left;
+    width:760px;
+    height: px;
+}
+
+
+.item1{
+    background-color:red;
+    width: 150px;
+    height:150px;
+}
