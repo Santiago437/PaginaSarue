@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Corações + Slideshow</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #cce7ff;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      position: relative;
+      flex-direction: column;
+    }
+
+    .heart {
+      position: absolute;
+      width: 6vw;
+      max-width: 40px;
+      height: auto;
+      aspect-ratio: 1/1;
+      background-image: url('coracao.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      bottom: -60px;
+      opacity: 0;
+      animation: subir 6s linear infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @keyframes subir {
+      0% {
+        transform: translateY(0) scale(0.5);
+        filter: drop-shadow(0 0 0px #ff4d6d);
+        opacity: 0;
+      }
+      20% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-120vh) scale(1.5);
+        filter: drop-shadow(0 0 15px #ff4d6d);
+        opacity: 0;
+      }
+    }
+
+    .slideshow {
+      width: 90vw;
+      max-width: 400px;
+      aspect-ratio: 1/1;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+      z-index: 1;
+      position: relative;
+    }
+
+    .slideshow img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 1s ease-in-out;
+    }
+
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Campo de imagem central -->
+  <div class="slideshow">
+    <img id="slide" src="fotos/img1.jpeg" alt="Slideshow">
+  </div>
+
+  <!-- Áudio de fundo -->
+  <audio id="bg-audio" src="talisma.mp3" autoplay loop></audio>
+
+  <script>
+    // Corações subindo
+    const totalHearts = 30;
+
+    for (let i = 0; i < totalHearts; i++) {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.style.left = `${Math.random() * 100}vw`;
+      heart.style.animationDuration = `${4 + Math.random() * 3}s`;
+      heart.style.animationDelay = `${Math.random() * 5}s`;
+      document.body.appendChild(heart);
+    }
+
+    // Slideshow de imagens
+    const imagens = [
+      'fotos/img1.jpeg',
+      'fotos/img2.jpeg',
+      'fotos/img3.jpeg',
+      'fotos/img4.jpeg',
+      'fotos/img5.jpeg'
+    ];
+
+    let index = 0;
+    const slide = document.getElementById('slide');
+
+    setInterval(() => {
+      index = (index + 1) % imagens.length;
+      slide.style.opacity = 0;
+      setTimeout(() => {
+        slide.src = imagens[index];
+        slide.style.opacity = 1;
+      }, 500);
+    }, 3000);
+
+    // Permitir reprodução de áudio após interação (em navegadores que bloqueiam autoplay)
+    document.addEventListener('click', () => {
+      const audio = document.getElementById('bg-audio');
+      if (audio.paused) {
+        audio.play();
+      }
+    });
+  </script>
+
+</body>
+</html>
